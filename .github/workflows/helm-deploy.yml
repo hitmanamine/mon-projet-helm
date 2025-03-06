@@ -1,0 +1,31 @@
+name: Helm Deploy Monitoring
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: 'v3.7.1'
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v1
+
+    - name: Configure Kubernetes context
+      run: |
+        echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+        export KUBECONFIG=kubeconfig.yaml
+
+    - name: Deploy Monitoring Stack
+      run: |
+        helm upgrade --install monitoring-stack ./charts/kube-prometheus-stack -f ./charts/kube-prometheus-stack/values.yaml --namespace monitoring
