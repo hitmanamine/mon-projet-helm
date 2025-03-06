@@ -1,0 +1,16 @@
+USER-SUPPLIED VALUES:
+grafana:
+  dashboards:
+    default:
+      kube-state-metrics:
+        datasource: Prometheus
+        gnetId: 13332
+        revision: 1
+      kubernetes-cluster:
+        datasource: Prometheus
+        gnetId: 3119
+        revision: 1
+      node-exporter:
+        datasource: Prometheus
+        gnetId: 1860
+        revision: 12
